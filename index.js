@@ -117,6 +117,9 @@ var JUnitReporter = function (baseReporterDecorator, config, logger, helper, for
   }
 
   this.onBrowserComplete = function (browser) {
+    // work around https://github.com/karma-runner/karma-junit-reporter/issues/20
+    if (!suites) return;
+
     var suite = suites[browser.id]
     var result = browser.lastResult
     if (!suite || !result) {
@@ -140,6 +143,9 @@ var JUnitReporter = function (baseReporterDecorator, config, logger, helper, for
   }
 
   this.specSuccess = this.specSkipped = this.specFailure = function (browser, result) {
+    // work around https://github.com/karma-runner/karma-junit-reporter/issues/20
+    if (!suites || !suites[browser.id]) return;
+
     var testsuite = suites[browser.id]
 
     if (!testsuite) {
